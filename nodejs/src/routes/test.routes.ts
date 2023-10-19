@@ -1,14 +1,7 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+import { getTestData } from '../controllers/test.controller';
 const router = Router();
 
-router.get('/', async (req: Request, res: Response) => {
-  // TODO
-  const result : string[] = [];
-  res.status(200).json({ users: result });
-});
+router.get('/', getTestData);
 
-router.post('/', async (req: Request, res: Response) => {
-  // TODO
-  res.status(201).json({ user: {} });
-});
 export default router;

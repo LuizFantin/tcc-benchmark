@@ -1,13 +1,11 @@
 import "reflect-metadata";
 
-import express, { Application, Request, Response } from 'express'
+import express from 'express'
 
 import os from "os";
 import cluster from "cluster";
 
-// import database from './database/configSequelize';
-
-// import testRoutes from './routes/test.routes'
+import testRoutes from './routes/test.routes'
 
 import postgresConnection from "./database/configTypeorm";
 
@@ -24,8 +22,10 @@ const PORT = process.env.PORT || 3000
 
 const app = express()
 
+app.use('/test', testRoutes);
+
 app.listen(PORT, function () {
-  console.log(`Express server listening on port ${PORT} and worker ${process.pid}`)
+  console.log(`Express server listening on port http://localhost:${PORT} and worker ${process.pid}`)
 })
 
 // const clusterWorkerSize = os.cpus().length
