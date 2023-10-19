@@ -1,16 +1,55 @@
-import express, { Express, Request, Response , Application } from 'express';
-import dotenv from 'dotenv';
+import "reflect-metadata";
 
-//For env File 
-dotenv.config();
+import express, { Application, Request, Response } from 'express'
 
-const app: Application = express();
-const port = process.env.PORT || 8000;
+import os from "os";
+import cluster from "cluster";
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Healthcheck');
-});
+// import database from './database/configSequelize';
 
-app.listen(port, () => {
-  console.log(`Server is Fire at http://localhost:${port}`);
-});
+// import testRoutes from './routes/test.routes'
+
+import postgresConnection from "./database/configTypeorm";
+
+postgresConnection.initialize()
+    .then(() => {
+        console.log("Postgree Source has been initialized!")
+    })
+    .catch((err) => {
+        console.error("Error during Data Source initialization", err)
+    })
+
+
+const PORT = process.env.PORT || 3000
+
+const app = express()
+
+app.listen(PORT, function () {
+  console.log(`Express server listening on port ${PORT} and worker ${process.pid}`)
+})
+
+// const clusterWorkerSize = os.cpus().length
+
+// if (clusterWorkerSize > 1) {
+//   if (cluster.isPrimary) {
+//     for (let i=0; i < clusterWorkerSize; i++) {
+//       cluster.fork()
+//     }
+
+//     cluster.on("exit", function(worker) {
+//       console.log("Worker", worker.id, " has exitted.")
+//     })
+//   } else {
+//     const app = express()
+
+//     app.listen(PORT, function () {
+//       console.log(`Express server listening on port ${PORT} and worker ${process.pid}`)
+//     })
+//   }
+// } else {
+//   const app = express()
+
+//   app.listen(PORT, function () {
+//     console.log(`Express server listening on port ${PORT} with the single worker ${process.pid}`)
+//   })
+// }
