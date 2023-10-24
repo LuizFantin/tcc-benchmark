@@ -13,4 +13,11 @@ const postgresConnection = new DataSource({
     migrations: [TestDataMigration1697724093405],
 })
 
-export default postgresConnection;
+const mongoConnection = new DataSource({
+    type: "mongodb",
+    host: "localhost",
+    port: 27017,
+    database: "test",
+})
+
+export {postgresConnection, mongoConnection};
