@@ -7,23 +7,23 @@ import cluster from "cluster";
 
 import testRoutes from './routes/test.routes'
 
-import {postgresConnection, mongoConnection} from "./database/configTypeorm";
+// import {postgresConnection, mongoConnection} from "./database/configTypeorm";
 
-postgresConnection.initialize()
-    .then(() => {
-        console.log("Postgree Source has been initialized!")
-    })
-    .catch((err) => {
-        console.error("Error during Data Source initialization", err)
-    })
+// postgresConnection.initialize()
+//     .then(() => {
+//         console.log("Postgree Source has been initialized!")
+//     })
+//     .catch((err) => {
+//         console.error("Error during Data Source initialization", err)
+//     })
 
-mongoConnection.initialize()
-    .then(() => {
-        console.log("Mongodb Source has been initialized!")
-    })
-    .catch((err) => {
-        console.error("Error during Data Source initialization", err)
-    })
+// mongoConnection.initialize()
+//     .then(() => {
+//         console.log("Mongodb Source has been initialized!")
+//     })
+//     .catch((err) => {
+//         console.error("Error during Data Source initialization", err)
+//     })
 
 
 const PORT = process.env.PORT || 3000
