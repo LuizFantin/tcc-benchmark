@@ -29,9 +29,12 @@ async function getTestData (req: Request, res: Response) {
 
   //? MULTI THREAD
   const numThreads = 4;
-  const N = 1000;
+  const N = 512;
   const matrixA = await createMatrix(N,N);
   const matrixB = await createMatrix(N,N);
+
+  // const matrixA = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+  // const matrixB = [[9, 8, 7], [6, 5, 4], [3, 2, 1]];
 
   if(!isMultithread){
     res.json({ result: await multiplyMatrix(matrixA, matrixB) });
