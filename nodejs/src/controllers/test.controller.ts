@@ -6,9 +6,17 @@ import multiplyMatrix from "../helpers/multiplyMatrix";
 import copyResultData from "../helpers/copyPartialResultMatrix";
 
 import { Worker, parentPort, workerData } from 'worker_threads';
+import strassenMatrixMultiply from "../helpers/strassenMultiplyMatrix";
 
+enum matrixAlgorithms {
+  STRASSEN = 'strassen',
+  LINEAR_SINGLE = 'linear',
+  LINEAR_MULTI = 'multi'
+}
 
 async function getTestData (req: Request, res: Response) {
+  const {algorithm} = req.query;
+  console.log(algorithm)
   //? Database repository use
   //   const testData = testRepository.create(123);
 //   console.log(testData);
@@ -25,19 +33,24 @@ async function getTestData (req: Request, res: Response) {
   //   result: result.length
   // }});
 
-  const isMultithread = true;
-
   //? MULTI THREAD
   const numThreads = 4;
-  const N = 512;
+  const N = 2048;
   const matrixA = await createMatrix(N,N);
   const matrixB = await createMatrix(N,N);
 
   // const matrixA = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
   // const matrixB = [[9, 8, 7], [6, 5, 4], [3, 2, 1]];
 
-  if(!isMultithread){
-    res.json({ result: await multiplyMatrix(matrixA, matrixB) });
+  if(algorithm === matrixAlgorithms.LINEAR_SINGLE){
+    const result = await multiplyMatrix(matrixA, matrixB);
+    res.json({ result: result[0][0]});
+    return
+  }
+
+  if(algorithm === matrixAlgorithms.STRASSEN){
+    const result = await strassenMatrixMultiply(matrixA, matrixB)
+    res.json({ result: result[0][0] });
     return
   }
   
