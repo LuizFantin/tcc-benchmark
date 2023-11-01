@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	createMatrix "github.com/LuizFantin/tcc-benchmark/golang/api/application/helpers"
+	helpers "github.com/LuizFantin/tcc-benchmark/golang/api/application/helpers"
 	usecases "github.com/LuizFantin/tcc-benchmark/golang/api/application/use-cases"
 )
 
@@ -21,11 +21,12 @@ func Multiply(c *gin.Context) {
 
 	// algorithm := c.Query("algorithm")
 
-	m1 := createMatrix.GenerateMatrix(N, N, false)
-	m2 := createMatrix.GenerateMatrix(N, N, false)
+	m1 := helpers.GenerateMatrix(N, N, false)
+	m2 := helpers.GenerateMatrix(N, N, false)
 
 	// result, err := usecases.MatrixMultiply(m1, m2)
-	result, err := usecases.MatrixMultiplyMulti(m1, m2)
+	// result, err := usecases.MatrixMultiplyMulti(m1, m2)
+	result, err := usecases.StrassenMatrixMultiply(m1, m2)
 
 	log.Print("Multiplication: ", gin.H{"data": result[0][0], "m1": m1[0][0], "m2": m2[0][0]})
 	c.JSON(http.StatusOK, gin.H{"data": result[0][0], "m1": m1[0][0], "m2": m2[0][0]})
