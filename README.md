@@ -11,3 +11,6 @@
 - Native multithreading in Linear algorithm
 
 ## Golang
+- Linear
+- Strassen Algorithm
+- Native multithreading in Linear algorithm
