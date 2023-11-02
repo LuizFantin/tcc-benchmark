@@ -13,23 +13,37 @@ import (
 
 func Multiply(c *gin.Context) {
 
-	N, err := strconv.Atoi(c.Query("N"))
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID parameter"})
+	N, err1 := strconv.Atoi(c.Query("N"))
+	if err1 != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid N parameter"})
 		return
 	}
 
-	// algorithm := c.Query("algorithm")
+	algorithm := c.Query("algorithm")
 
 	m1 := helpers.GenerateMatrix(N, N, false)
 	m2 := helpers.GenerateMatrix(N, N, false)
 
-	// result, err := usecases.MatrixMultiply(m1, m2)
-	// result, err := usecases.MatrixMultiplyMulti(m1, m2)
-	result, err := usecases.StrassenMatrixMultiply(m1, m2)
+	var result [][]int
+	var err error
 
-	log.Print("Multiplication: ", gin.H{"data": result[0][0], "m1": m1[0][0], "m2": m2[0][0]})
-	c.JSON(http.StatusOK, gin.H{"data": result[0][0], "m1": m1[0][0], "m2": m2[0][0]})
-	// c.JSON(http.StatusOK, gin.H{"data": result, "m1": m1, "m2": m2})
+	switch algorithm {
+	case "linear":
+		result, err = usecases.MatrixMultiply(m1, m2)
+	case "multi":
+		result, err = usecases.MatrixMultiplyMulti(m1, m2)
+	case "strassen":
+		result, err = usecases.StrassenMatrixMultiply(m1, m2)
+	default:
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid algorithm parameter"})
+		return
+	}
 
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Matrix multiplication failed"})
+		return
+	}
+
+	log.Print("Multiplication: ", gin.H{"algorith": algorithm, "data": result[0][0], "m1": m1[0][0], "m2": m2[0][0]})
+	c.JSON(http.StatusOK, gin.H{"algorith": algorithm, "data": result[0][0], "m1": m1[0][0], "m2": m2[0][0]})
 }
