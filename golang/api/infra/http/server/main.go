@@ -17,7 +17,6 @@ func Init() {
 
 	router.GET("/health", healthController.Alive)
 	router.GET("/matrix", matrixController.Multiply)
-	// router.POST("/lead", leadhController.RegisterLead)
 
 	err := godotenv.Load(".env")
 
