@@ -31,12 +31,12 @@ async function matrixMultiply (req: Request, res: Response) {
 
     case matrixAlgorithms.LINEAR_SINGLE:
       result = await multiplyMatrix(matrixA, matrixB);
-      res.json({ algorithm, result: result[0][0], m1: matrixA[0][0], m2: matrixB[0][0]});
+      res.json({ algorithm, result: result[0][0], m1: matrixA[0][0], m2: matrixB[0][0], memoryUsage: `${(process.memoryUsage.rss() / (1024 * 1024)).toFixed(2)} MB`});
       break;
 
     case matrixAlgorithms.STRASSEN:
       result = await strassenMatrixMultiply(matrixA, matrixB)
-      res.json({ algorithm, result: result[0][0], m1: matrixA[0][0], m2: matrixB[0][0] });
+      res.json({ algorithm, result: result[0][0], m1: matrixA[0][0], m2: matrixB[0][0], memoryUsage: `${(process.memoryUsage.rss() / (1024 * 1024)).toFixed(2)} MB`});
       break;
 
     case matrixAlgorithms.LINEAR_MULTI:
@@ -59,7 +59,7 @@ async function matrixMultiply (req: Request, res: Response) {
             const combinedResult = threads.flatMap(innerArrays => innerArrays)
             // console.log(combinedResult)
 
-            res.json({ algorithm, result: combinedResult[0][0], m1: matrixA[0][0], m2: matrixB[0][0] });
+            res.json({ algorithm, result: result[0][0], m1: matrixA[0][0], m2: matrixB[0][0], memoryUsage: `${(process.memoryUsage.rss() / (1024 * 1024)).toFixed(2)} MB`});
             worker.terminate();
           }
         });

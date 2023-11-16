@@ -1,8 +1,10 @@
 package controllers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"runtime"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -10,6 +12,10 @@ import (
 	helpers "github.com/LuizFantin/tcc-benchmark/golang/api/application/helpers"
 	usecases "github.com/LuizFantin/tcc-benchmark/golang/api/application/use-cases"
 )
+
+func bToMb(b uint64) uint64 {
+	return b / 1024 / 1024
+}
 
 func Multiply(c *gin.Context) {
 
@@ -44,6 +50,9 @@ func Multiply(c *gin.Context) {
 		return
 	}
 
-	log.Print("Multiplication: ", gin.H{"algorith": algorithm, "result": result[0][0], "m1": m1[0][0], "m2": m2[0][0]})
-	c.JSON(http.StatusOK, gin.H{"algorith": algorithm, "result": result[0][0], "m1": m1[0][0], "m2": m2[0][0]})
+	var m runtime.MemStats
+	runtime.ReadMemStats(&m)
+
+	log.Print("Multiplication: ", gin.H{"algorith": algorithm, "result": result[0][0], "m1": m1[0][0], "m2": m2[0][0], "memoryUsage": fmt.Sprintf("%d MB", bToMb(m.Alloc))})
+	c.JSON(http.StatusOK, gin.H{"algorith": algorithm, "result": result[0][0], "m1": m1[0][0], "m2": m2[0][0], "memoryUsage": fmt.Sprintf("%d MB", bToMb(m.Alloc))})
 }
