@@ -1,28 +1,32 @@
 package br.ufes.tcc.benchmarktcc.helper;
 
-import java.util.ArrayList;
-import java.util.List;
+import br.ufes.tcc.benchmarktcc.aop.Timer;
+
 import java.util.Random;
 
 public class CreateMatrix {
 
-	
-	public static List<List<Integer>> run(int numRows, int numCols, boolean fillZeros){
-		 List<List<Integer>> matrix = new ArrayList<>();
-	        Random random = new Random();
+    private CreateMatrix() {
+        throw new UnsupportedOperationException("Classe de utilidades não instanciavel");
+    }
 
-	        for (int i = 0; i < numRows; i++) {
-	            List<Integer> row = new ArrayList<>();
-	            for (int j = 0; j < numCols; j++) {
-	                if (fillZeros) {
-	                    row.add(0);
-	                } else {
-	                    row.add(random.nextInt(10));
-	                }
-	            }
-	            matrix.add(row);
-	        }
+    private static final Random random = new Random();
 
-	        return matrix;
-	}
+    @Timer
+    public static int[][] run(int numRows, int numCols, boolean fillZeros) {
+        int[][] matrix = new int[numRows][numCols];
+
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                if (fillZeros) {
+                    matrix[i][j] = 0;
+                } else {
+                    matrix[i][j] = random.nextInt(10);
+                }
+            }
+        }
+
+        return matrix;
+    }
+
 }
