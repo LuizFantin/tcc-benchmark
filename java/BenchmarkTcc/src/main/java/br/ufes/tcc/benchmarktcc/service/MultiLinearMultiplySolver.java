@@ -48,7 +48,7 @@ public class MultiLinearMultiplySolver implements AlgorithmSolver {
         CompletableFuture<Void>[] futures = futuresList.toArray(new CompletableFuture[0]);
 
         // ESPERANDO TODAS AS TASKS COMPLETAREM
-        CompletableFuture.allOf(futures);
+        CompletableFuture.allOf(futures).join();
 
         return result;
     }
