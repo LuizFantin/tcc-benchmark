@@ -4,16 +4,18 @@ const fs = require('fs');
 
 // Replace these URLs with your API endpoints
 const apiUrls = [
-  'http://localhost:8000/matrix?N=1024&algorithm=multi',
-//   'http://localhost:3000/matrix?N=1024&algorithm=linear',
-//   'http://localhost:3000/matrix?N=1024&algorithm=strassen',
+//   'http://localhost:8080/matrix?N=1024&algorithm=multi',
+//   'http://localhost:8080/matrix?N=1024&algorithm=linear',
+  'http://localhost:8080/matrix?N=1024&algorithm=strassen',
 ];
 
-const language = "Golang"
 // const language = "Node.js"
-// const language = "Node.js"
+const language = "Java"
+// const language = "Golang"
 
 const numParallelRequests = 10; // Number of parallel requests to make
+
+const isSingleTest = true;
 
 function extractParamsFromUrl(apiUrl) {
   const parsedUrl = new URL(apiUrl);
@@ -54,18 +56,25 @@ async function makeRequest(apiUrl, isParallel, numRequests) {
 
 async function testAPIs() {
   const results = [];
-  const totalTests = apiUrls.length * (1 + numParallelRequests); // Single request + numParallelRequests in parallel
+  const totalTests = isSingleTest? 10 : apiUrls.length * (numParallelRequests); // Single request + numParallelRequests in parallel
 
   let completedTests = 0;
 
   for (const apiUrl of apiUrls) {
     // Test for a single request
-    const singleRequestResult = await makeRequest(apiUrl, false, 1);
-    results.push(singleRequestResult);
-    completedTests++;
+    
+    if(isSingleTest){
+        for (let index = 0; index < 10; index++) {
+            const singleRequestResult = await makeRequest(apiUrl, false, 1);
+            results.push(singleRequestResult);
+            completedTests++;
+    
+            // Print percentage completion
+            console.log(`Progress: ${(completedTests / totalTests * 100).toFixed(2)}%`);
+        }
+        return results;
+    }
 
-    // Print percentage completion
-    console.log(`Progress: ${(completedTests / totalTests * 100).toFixed(2)}%`);
 
     // Test for multiple requests in parallel
     const parallelRequests = Array.from({ length: numParallelRequests }, () =>
