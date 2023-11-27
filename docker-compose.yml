@@ -1,0 +1,37 @@
+version: '3'
+services:
+  node-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    ports:
+      - "3000:3000"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  java-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.java
+    ports:
+      - "8000:8000"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  golang-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.golang
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M

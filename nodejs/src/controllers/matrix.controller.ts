@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import { TestData } from "../database/entities/TestData";
-import testRepository from "../repositories/test.repository";
 import createMatrix from "../helpers/createMatrix";
 import multiplyMatrix from "../helpers/multiplyMatrix";
 import copyResultData from "../helpers/copyPartialResultMatrix";

@@ -1,0 +1,23 @@
+# Use a imagem oficial do Node.js como base
+FROM node:latest
+
+# Define o diretório de trabalho dentro do contêiner
+WORKDIR /app
+
+# Copia os arquivos de configuração para o diretório de trabalho
+COPY package*.json tsconfig.json ./
+
+# Instala as dependências necessárias
+RUN npm install
+
+# Copia o código-fonte para o diretório de trabalho
+COPY . .
+
+# Compila o código TypeScript para JavaScript
+RUN npm run build
+
+# Expõe a porta que o aplicativo estará ouvindo
+EXPOSE 3000
+
+# Comando para iniciar o aplicativo após o contêiner ser iniciado
+CMD ["npm", "start"]
