@@ -24,14 +24,14 @@ services:
           cpus: '4'
           memory: 1024M
 
-  # java-api:
-  #   build:
-  #     context: ./java
-  #     dockerfile: Dockerfile.java
-  #   ports:
-  #     - "8080:8080"
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         cpus: '4'
-  #         memory: 1024M
+  java-api:
+    build:
+      context: ./java/BenchmarkTcc
+      dockerfile: Dockerfile.spring
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 1024M
