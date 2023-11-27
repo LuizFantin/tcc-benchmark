@@ -14,10 +14,10 @@ RUN go mod download
 COPY . .
 
 # Compila o código Go
-RUN go build -o main ./app/infra/http
+RUN go build -o main ./api/infra/http
 
 # Expõe a porta que o aplicativo estará ouvindo
-EXPOSE 8080
+EXPOSE 8000
 
 # Comando para iniciar o aplicativo após o contêiner ser iniciado
 CMD ["./main"]
