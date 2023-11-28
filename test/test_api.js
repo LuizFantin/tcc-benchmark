@@ -2,20 +2,7 @@ const axios = require('axios');
 const { performance } = require('perf_hooks');
 const fs = require('fs');
 
-// Replace these URLs with your API endpoints
-const apiUrls = [
-//   'http://localhost:8080/matrix?N=1024&algorithm=multi',
-//   'http://localhost:8080/matrix?N=1024&algorithm=linear',
-  'http://localhost:8080/matrix?N=1024&algorithm=strassen',
-];
 
-// const language = "Node.js"
-const language = "Java"
-// const language = "Golang"
-
-const numParallelRequests = 10; // Number of parallel requests to make
-
-const isSingleTest = true;
 
 function extractParamsFromUrl(apiUrl) {
   const parsedUrl = new URL(apiUrl);
@@ -54,7 +41,7 @@ async function makeRequest(apiUrl, isParallel, numRequests) {
   }
 }
 
-async function testAPIs() {
+async function testAPIs(apiUrls, isSingleTest, language, numParallelRequests) {
   const results = [];
   const totalTests = isSingleTest? 10 : apiUrls.length * (numParallelRequests); // Single request + numParallelRequests in parallel
 
@@ -91,7 +78,7 @@ async function testAPIs() {
   return results;
 }
 
-async function saveToJSON(data) {
+async function saveToJSON(data, language) {
     const filename = 'api_test_results.json';
   
     try {
@@ -128,7 +115,4 @@ async function saveToJSON(data) {
     }
   }
 
-// Run the test and save the results to JSON
-testAPIs()
-  .then((results) => saveToJSON(results))
-  .catch((error) => console.error('Error testing APIs:', error));
+  module.exports = {testAPIs, saveToJSON}
