@@ -9,7 +9,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '4'
+          cpus: '14'
           memory: 1024M
 
   nodejs-api:
@@ -21,7 +21,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '4'
+          cpus: '14'
           memory: 1024M
 
   java-api:
@@ -33,5 +33,5 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '4'
+          cpus: '14'
           memory: 1024M
